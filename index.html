@@ -1,1 +1,383 @@
-Date
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f2ea">
+<meta property="og:title" content="Laura & Marcel – Save the Date">
+<meta property="og:description" content="Eine kleine Überraschung für euch! Wir heiraten am 16. Oktober 2027.">
+<title>Laura & Marcel – Save the Date</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 18px;
+  min-height: 100vh;
+  background: #eee8df;
+  color: #332e2a;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.page {
+  width: 100%;
+  max-width: 460px;
+  overflow: hidden;
+  text-align: center;
+  background: #f7f2ea;
+  border: 1px solid #e5ddd2;
+  border-radius: 26px;
+}
+
+.hero {
+  padding: 42px 22px 30px;
+  background: linear-gradient(#faf7f2, #f4ede3);
+}
+
+.eyebrow {
+  color: #aa8a5d;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(38px, 11vw, 52px);
+  line-height: 1;
+  font-weight: normal;
+  margin: 0;
+}
+
+.amp {
+  display: block;
+  margin: 8px 0;
+  color: #aa8a5d;
+  font-size: 25px;
+}
+
+.date {
+  margin-top: 24px;
+  font: 24px Georgia, serif;
+}
+
+.intro {
+  max-width: 330px;
+  margin: 20px auto 0;
+  color: #756d64;
+  font: 16px/1.7 Georgia, serif;
+}
+
+.scratch-section {
+  padding: 28px 20px 32px;
+}
+
+.section-label {
+  margin-bottom: 14px;
+  color: #8c8175;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.scratch {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+  border: 1px solid #ded4c7;
+  border-radius: 18px;
+  background: #eee6da;
+  touch-action: none;
+}
+
+.message {
+  height: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.message small {
+  color: #aa8a5d;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.message strong {
+  margin: 12px 0;
+  font: normal 27px Georgia, serif;
+}
+
+.message span {
+  color: #756d64;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.hint {
+  margin: 15px 0;
+  color: #81776d;
+  font-size: 12px;
+}
+
+button {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid #d4c8ba;
+  border-radius: 30px;
+  background: transparent;
+  color: #665d55;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.footer {
+  padding: 27px 20px 32px;
+  border-top: 1px solid #e4dbcf;
+}
+
+.heart {
+  margin-bottom: 10px;
+  color: #aa8a5d;
+  font-size: 26px;
+}
+
+.footer p {
+  color: #645c55;
+  font: 16px/1.7 Georgia, serif;
+}
+
+.share {
+  margin-top: 12px;
+  border: none;
+  background: #332e2a;
+  color: white;
+}
+
+</style>
+</head>
+
+<body>
+<main class="page">
+
+  <section class="hero">
+    <div class="eyebrow">Save the Date</div>
+
+    <h1>
+      Laura
+      <span class="amp">&amp;</span>
+      Marcel
+    </h1>
+
+    <div class="date">16. Oktober 2027</div>
+
+    <p class="intro">
+      Wir haben eine kleine Überraschung für euch.
+      Rub­belt das Feld frei und entdeckt
+      unseren besonderen Tag.
+    </p>
+  </section>
+
+  <section class="scratch-section">
+    <div class="section-label">Eine Überraschung für euch</div>
+
+    <div class="scratch" id="scratch">
+      <div class="message">
+        <small>Wir heiraten!</small>
+        <strong>16. Oktober 2027</strong>
+        <span>
+          Wir freuen uns darauf, diesen Tag
+          mit euch zu feiern. ♡
+        </span>
+      </div>
+
+      <canvas id="canvas"
+        aria-label="Hier mit dem Finger freirubbeln">
+      </canvas>
+    </div>
+
+    <p class="hint" id="hint">
+      ✦ Mit dem Finger oder der Maus freirubbeln ✦
+    </p>
+
+    <button id="reset" type="button">
+      Noch einmal rubbeln
+    </button>
+  </section>
+
+  <footer class="footer">
+    <div class="heart">♡</div>
+
+    <p>
+      Weitere Informationen und eure
+      persönliche Einladung folgen bald.
+    </p>
+
+    <button class="share" id="share" type="button">
+      Save the Date teilen
+    </button>
+  </footer>
+
+</main>
+
+<script>
+const canvas = document.getElementById("canvas");
+const scratch = document.getElementById("scratch");
+const ctx = canvas.getContext("2d");
+const hint = document.getElementById("hint");
+
+let drawing = false;
+let lastPoint = null;
+
+function setupCanvas() {
+  const rect = scratch.getBoundingClientRect();
+  const scale = Math.min(window.devicePixelRatio || 1, 2);
+
+  canvas.width = rect.width * scale;
+  canvas.height = rect.height * scale;
+
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.globalCompositeOperation = "source-over";
+
+  // Rubbelschicht
+  ctx.fillStyle = "#c5bdb1";
+  ctx.fillRect(0, 0, rect.width, rect.height);
+
+  // Dezente Struktur
+  ctx.strokeStyle = "rgba(255,255,255,0.25)";
+  ctx.lineWidth = 1;
+
+  for (let y = 10; y < rect.height; y += 18) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(rect.width, y);
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = "#fffaf3";
+  ctx.font = "600 12px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "FREI RUBBELN ♡",
+    rect.width / 2,
+    rect.height / 2 + 4
+  );
+
+  hint.textContent =
+    "✦ Mit dem Finger oder der Maus freirubbeln ✦";
+}
+
+function getPoint(event) {
+  const rect = canvas.getBoundingClientRect();
+
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
+}
+
+function rub(point) {
+  ctx.globalCompositeOperation = "destination-out";
+  ctx.lineWidth = 34;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  ctx.beginPath();
+
+  if (lastPoint) {
+    ctx.moveTo(lastPoint.x, lastPoint.y);
+    ctx.lineTo(point.x, point.y);
+    ctx.stroke();
+  } else {
+    ctx.arc(point.x, point.y, 17, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  lastPoint = point;
+}
+
+canvas.addEventListener("pointerdown", event => {
+  drawing = true;
+  lastPoint = null;
+
+  canvas.setPointerCapture(event.pointerId);
+  rub(getPoint(event));
+
+  event.preventDefault();
+});
+
+canvas.addEventListener("pointermove", event => {
+  if (!drawing) return;
+
+  rub(getPoint(event));
+  event.preventDefault();
+});
+
+function stopDrawing() {
+  drawing = false;
+  lastPoint = null;
+}
+
+canvas.addEventListener("pointerup", stopDrawing);
+canvas.addEventListener("pointercancel", stopDrawing);
+
+document.getElementById("reset").addEventListener("click", () => {
+  setupCanvas();
+});
+
+document.getElementById("share").addEventListener("click", async () => {
+  const pageUrl = window.location.href;
+
+  const text =
+    "💍 Laura & Marcel\n\n" +
+    "Wir haben eine kleine Überraschung für euch! ✨\n\n" +
+    "Merkt euch unser Hochzeitsdatum:\n" +
+    "❤️ 16. Oktober 2027 ❤️\n\n" +
+    "Hier könnt ihr unsere Karte freirubbeln:\n" +
+    pageUrl;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Laura & Marcel – Save the Date",
+        text: text,
+        url: pageUrl
+      });
+    } catch (error) {
+      // Teilen wurde gegebenenfalls abgebrochen.
+    }
+  } else {
+    window.open(
+      "https://wa.me/?text=" + encodeURIComponent(text),
+      "_blank"
+    );
+  }
+});
+
+setupCanvas();
+
+window.addEventListener("resize", setupCanvas);
+</script>
+
+</body>
+</html>
