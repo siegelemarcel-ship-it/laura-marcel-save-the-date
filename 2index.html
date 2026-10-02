@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Laura & Marcel – Save the Date</title>
+
+  <meta name="theme-color" content="#f4eee5">
+  <meta property="og:title" content="Laura & Marcel – Save the Date">
+  <meta property="og:description" content="Eine kleine Überraschung wartet auf euch …">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      background: #f4eee5;
+      color: #342d28;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* =========================================
+       HAUPTBEREICH
+    ========================================= */
+
+    .wedding-page {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      margin: 0 auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 16px;
+    }
+
+    .scene {
+      width: 100%;
+      min-height: 650px;
+
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 50% 20%,
+          rgba(255,255,255,.65),
+          transparent 45%
+        ),
+        #f4eee5;
+
+      border-radius: 28px;
+    }
+
+
+    /* =========================================
+       UMSCHLAG
+    ========================================= */
+
+    .envelope {
+      width: min(100%, 390px);
+      aspect-ratio: 1.5 / 1;
+
+      position: relative;
+
+      cursor: default;
+
+      transition:
+        transform 0.5s ease;
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+
+      background: #e7dac9;
+
+      border-radius: 5px;
+
+      box-shadow:
+        0 18px 40px rgba(92, 74, 53, .16);
+    }
+
+
+    /* Papier, das aus dem Umschlag kommt */
+
+    .envelope-paper {
+      position: absolute;
+
+      left: 8%;
+      right: 8%;
+      bottom: 5%;
+
+      height: 88%;
+
+      background: #faf7f0;
+
+      border-radius: 3px;
+
+      z-index: 2;
+
+      transform: translateY(0);
+
+      transition:
+        transform 1s ease;
+
+      box-shadow:
+        0 3px 10px rgba(92, 74, 53, .10);
+    }
+
+    .envelope-paper::before {
+      content: "Laura  &  Marcel";
+
+      display: block;
+
+      padding-top: 32px;
+
+      text-align: center;
+
+      color: #4b4037;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 20px;
+    }
+
+
+    /* Umschlagklappe */
+
+    .flap {
+      position: absolute;
+
+      z-index: 4;
+
+      left: 0;
+      right: 0;
+      top: 0;
+
+      height: 58%;
+
+      background: #ede2d2;
+
+      clip-path:
+        polygon(
+          0 0,
+          100% 0,
+          50% 100%
+        );
+
+      transform-origin: top;
+
+      transition:
+        transform 1s ease;
+
+      filter:
+        drop-shadow(
+          0 3px 4px rgba(77, 58, 40, .10)
+        );
+    }
+
+
+    /* =========================================
+       WACHSSIEGEL
+    ========================================= */
+
+    .wax-seal {
+      position: absolute;
+
+      z-index: 6;
+
+      left: 50%;
+      top: 50%;
+
+      width: 72px;
+      height: 72px;
+
+      transform:
+        translate(-50%, -50%);
+
+      border: 0;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          #bd7065,
+          #91433b 62%,
+          #70312d
+        );
+
+      color: #f5ddd0;
+
+      box-shadow:
+        0 6px 14px rgba(77, 36, 30, .32);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      transition:
+        transform .5s ease,
+        opacity .4s ease;
+    }
+
+    .wax-seal span {
+      width: 54px;
+      height: 54px;
+
+      border: 1px solid #dca89b;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 19px;
+    }
+
+    .wax-seal:hover {
+      transform:
+        translate(-50%, -50%)
+        scale(1.06);
+    }
+
+    .wax-seal:focus-visible {
+      outline: 3px solid #aa8064;
+      outline-offset: 5px;
+    }
+
+
+    /* =========================================
+       HINWEIS
+    ========================================= */
+
+    .open-hint {
+      position: absolute;
+
+      z-index: 7;
+
+      left: 0;
+      right: 0;
+      bottom: 30px;
+
+      text-align: center;
+
+      color: #887b6e;
+
+      font-size: 12px;
+
+      letter-spacing: .12em;
+
+      text-transform: uppercase;
+
+      transition:
+        opacity .4s ease;
+    }
+
+
+    /* =========================================
+       ÖFFNUNGSANIMATION
+    ========================================= */
+
+    .opened .flap {
+      transform:
+        rotateX(180deg);
+    }
+
+    .opened .wax-seal {
+      transform:
+        translate(-50%, -50%)
+        scale(.15);
+
+      opacity: 0;
+
+      pointer-events: none;
+    }
+
+    .opened .envelope-paper {
+      transform:
+        translateY(-48%);
+    }
+
+
+    /* =========================================
+       BRIEF / SAVE THE DATE
+    ========================================= */
+
+    .letter {
+      position: absolute;
+
+      z-index: 10;
+
+      inset: 7%;
+
+      padding: 35px 22px;
+
+      background: #faf7f0;
+
+      border: 1px solid #e5dacc;
+
+      border-radius: 8px;
+
+      text-align: center;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transform:
+        translateY(40px)
+        scale(.96);
+
+      transition:
+        opacity .7s .7s ease,
+        transform .9s .7s ease;
+
+      box-shadow:
+        0 10px 30px rgba(73, 56, 41, .12);
+    }
+
+    .opened .letter {
+      opacity: 1;
+
+      pointer-events: auto;
+
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+
+    /* =========================================
+       TEXT
+    ========================================= */
+
+    .eyebrow {
+      margin-bottom: 12px;
+
+      color: #aa8064;
+
+      font-size: 10px;
+
+      letter-spacing: .3em;
+
+      text-transform: uppercase;
+    }
+
+    .letter h1 {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 35px;
+
+      font-weight: 400;
+    }
+
+    .ampersand {
+      color: #aa8064;
+
+      font-size: 22px;
+    }
+
+    .intro {
+      margin: 14px auto 22px;
+
+      max-width: 300px;
+
+      color: #756a60;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+    }
+
+
+    /* =========================================
+       RUBBELFLÄCHE
+    ========================================= */
+
+    .scratch-area {
+      height: 170px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      border-radius: 16px;
+
+      background: #eee5d8;
+
+      border: 1px solid #ddd0bf;
+
+      touch-action: none;
+
+      user-select: none;
+    }
+
+
+    /* Das Datum befindet sich bereits darunter.
+       Es wird durch Canvas verdeckt. */
+
+    .hidden-date {
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+    .hidden-date .small {
+      color: #aa8064;
+
+      font-size: 9px;
+
+      letter-spacing: .24em;
+
+      text-transform: uppercase;
+    }
+
+    .hidden-date strong {
+      margin: 9px 0;
+
+      color: #342d28;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 30px;
+
+      font-weight: 400;
+    }
+
+    .hidden-date span {
+      color: #756a60;
+
+      font-size: 12px;
+    }
+
+
+    /* Canvas für Rubbelfläche */
+
+    #scratchCanvas {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      cursor: crosshair;
+
+      touch-action: none;
+    }
+
+
+    /* =========================================
+       RUBBEL-HINWEIS
+    ========================================= */
+
+    .scratch-hint {
+      margin-top: 12px;
+
+      color: #8b8075;
+
+      font-size: 11px;
+    }
+
+
+    /* =========================================
+       BUTTONS
+    ========================================= */
+
+    .reset-button {
+      min-height: 44px;
+
+      margin-top: 12px;
+
+      padding: 7px 15px;
+
+      border:
+        1px solid #d4c7b8;
+
+      border-radius: 999px;
+
+      background: transparent;
+
+      color: #6e635a;
+
+      font-size: 11px;
+
+      cursor: pointer;
+    }
+
+    .reset-button:hover {
+      background: #f1e9df;
+    }
+
+    .reset-button:focus-visible,
+    .again-button:focus-visible {
+      outline: 3px solid #aa8064;
+
+      outline-offset: 3px;
+    }
+
+    .again-button {
+      min-height: 44px;
+
+      margin-top: 5px;
+
+      padding: 8px 14px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: #9b806b;
+
+      font-size: 11px;
+
+      cursor: pointer;
+    }
+
+
+    /* =========================================
+       KLEINE BILDSCHIRME
+    ========================================= */
+
+    @media (max-width: 420px) {
+
+      .wedding-page {
+        padding: 8px;
+      }
+
+      .scene {
+        min-height: calc(100vh - 16px);
+
+        padding: 16px;
+
+        border-radius: 24px;
+      }
+
+      .letter {
+        inset: 5%;
+
+        padding: 27px 16px;
+      }
+
+      .letter h1 {
+        font-size: 31px;
+      }
+
+      .intro {
+        margin:
+          11px auto 16px;
+      }
+
+      .scratch-area {
+        height: 150px;
+      }
+
+      .hidden-date strong {
+        font-size: 27px;
+      }
+    }
+
+
+    /* Weniger Animation, wenn vom Gerät gewünscht */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .flap,
+      .envelope-paper,
+      .wax-seal,
+      .letter {
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="wedding-page">
+
+    <section class="scene">
+
+      <div
+        class="envelope"
+        id="envelope"
+        aria-label="Save the Date Umschlag"
+      >
+
+        <!-- Umschlag -->
+        <div class="envelope-back"></div>
+
+        <!-- Briefpapier -->
+        <div class="envelope-paper"></div>
+
+        <!-- Umschlagklappe -->
+        <div class="flap"></div>
+
+
+        <!-- Wachssiegel -->
+        <button
+          class="wax-seal"
+          id="waxSeal"
+          type="button"
+          aria-label="Wachssiegel antippen, um den Umschlag zu öffnen"
+        >
+          <span>LM</span>
+        </button>
+
+
+        <!-- Öffnungshinweis -->
+        <div
+          class="open-hint"
+          id="openHint"
+        >
+          Tippt auf das Wachssiegel zum Öffnen
+        </div>
+
+
+        <!-- =====================================
+             INHALT DES GEÖFFNETEN BRIEFES
+        ====================================== -->
+
+        <article class="letter">
+
+          <div class="eyebrow">
+            Save the Date
+          </div>
+
+
+          <h1>
+            Laura
+            <span class="ampersand">&amp;</span>
+            Marcel
+          </h1>
+
+
+          <p class="intro">
+            Wir haben eine kleine Überraschung für euch …<br>
+            Rub­belt das Feld frei.
+          </p>
+
+
+          <!-- RUBBELFLÄCHE -->
+
+          <div
+            class="scratch-area"
+            id="scratchArea"
+          >
+
+            <!--
+              WICHTIG:
+              Das Datum liegt hier darunter.
+              Erst durch das Entfernen der grauen
+              Canvas-Fläche wird es sichtbar.
+            -->
+
+            <div class="hidden-date">
+
+              <div class="small">
+                Wir heiraten
+              </div>
+
+              <strong>
+                16.10.2027
+              </strong>
+
+              <span>
+                Wir freuen uns auf euch ♡
+              </span>
+
+            </div>
+
+
+            <!--
+              Canvas = eigentliche Rubbelfläche
+            -->
+
+            <canvas
+              id="scratchCanvas"
+              aria-label="Rubbelfläche"
+            ></canvas>
+
+          </div>
+
+
+          <div
+            class="scratch-hint"
+            id="scratchHint"
+            aria-live="polite"
+          >
+            ✦ Mit dem Finger freirubbeln ✦
+          </div>
+
+
+          <button
+            class="reset-button"
+            id="resetButton"
+            type="button"
+          >
+            Rubbelfläche zurücksetzen
+          </button>
+
+
+          <br>
+
+
+          <button
+            class="again-button"
+            id="againButton"
+            type="button"
+          >
+            ↺ Umschlag erneut öffnen
+          </button>
+
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+    (() => {
+
+      "use strict";
+
+
+      /* =========================================
+         ELEMENTE
+      ========================================= */
+
+      const envelope =
+        document.getElementById("envelope");
+
+      const waxSeal =
+        document.getElementById("waxSeal");
+
+      const openHint =
+        document.getElementById("openHint");
+
+      const scratchArea =
+        document.getElementById("scratchArea");
+
+      const canvas =
+        document.getElementById("scratchCanvas");
+
+      const scratchHint =
+        document.getElementById("scratchHint");
+
+      const resetButton =
+        document.getElementById("resetButton");
+
+      const againButton =
+        document.getElementById("againButton");
+
+
+      const ctx =
+        canvas.getContext(
+          "2d",
+          {
+            willReadFrequently: true
+          }
+        );
+
+
+      /* =========================================
+         STATUS
+      ========================================= */
+
+      let isDrawing = false;
+      let lastPoint = null;
+
+      let canvasWidth = 0;
+      let canvasHeight = 0;
+
+
+      /* =========================================
+         CANVAS EINRICHTEN
+      ========================================= */
+
+      function setupScratchSurface() {
+
+        const rect =
+          scratchArea.getBoundingClientRect();
+
+        if (
+          rect.width <= 0 ||
+          rect.height <= 0
+        ) {
+          return;
+        }
+
+
+        /*
+         * Device Pixel Ratio begrenzen,
+         * damit die Seite auch auf älteren
+         * Smartphones performant bleibt.
+         */
+
+        const dpr =
+          Math.min(
+            2,
+            window.devicePixelRatio || 1
+          );
+
+
+        canvasWidth =
+          rect.width;
+
+        canvasHeight =
+          rect.height;
+
+
+        canvas.width =
+          Math.max(
+            1,
+            Math.round(
+              canvasWidth * dpr
+            )
+          );
+
+        canvas.height =
+          Math.max(
+            1,
+            Math.round(
+              canvasHeight * dpr
+            )
+          );
+
+
+        canvas.style.width =
+          canvasWidth + "px";
+
+        canvas.style.height =
+          canvasHeight + "px";
+
+
+        /*
+         * Zeichnen in CSS-Pixeln
+         */
+
+        ctx.setTransform(
+          dpr,
+          0,
+          0,
+          dpr,
+          0,
+          0
+        );
+
+
+        /*
+         * Ausgangsfläche
+         */
+
+        ctx.globalCompositeOperation =
+          "source-over";
+
+        ctx.fillStyle =
+          "#b9afa2";
+
+        ctx.fillRect(
+          0,
+          0,
+          canvasWidth,
+          canvasHeight
+        );
+
+
+        /*
+         * Dezente Linienstruktur
+         * für eine realistischere
+         * Rubbelfläche
+         */
+
+        ctx.fillStyle =
+          "rgba(255,255,255,.16)";
+
+        for (
+          let y = 15;
+          y < canvasHeight;
+          y += 20
+        ) {
+
+          ctx.fillRect(
+            0,
+            y,
+            canvasWidth,
+            1
+          );
+        }
+
+
+        /*
+         * Beschriftung
+         */
+
+        ctx.fillStyle =
+          "rgba(255,255,255,.82)";
+
+        ctx.font =
+          "600 12px Arial, sans-serif";
+
+        ctx.textAlign =
+          "center";
+
+        ctx.textBaseline =
+          "middle";
+
+        ctx.fillText(
+          "FREI RUBBELN",
+          canvasWidth / 2,
+          canvasHeight / 2
+        );
+
+
+        scratchHint.textContent =
+          "✦ Mit dem Finger freirubbeln ✦";
+      }
+
+
+      /* =========================================
+         MOUSE / TOUCH POSITION
+      ========================================= */
+
+      function getPoint(event) {
+
+        const rect =
+          canvas.getBoundingClientRect();
+
+        return {
+          x:
+            event.clientX -
+            rect.left,
+
+          y:
+            event.clientY -
+            rect.top
+        };
+      }
+
+
+      /* =========================================
+         RUBBELN
+      ========================================= */
+
+      function scratch(point) {
+
+        ctx.globalCompositeOperation =
+          "destination-out";
+
+
+        /*
+         * Größe der Rubbelfläche.
+         * 31px funktioniert gut mit
+         * Finger und Maus.
+         */
+
+        ctx.lineWidth =
+          31;
+
+        ctx.lineCap =
+          "round";
+
+        ctx.lineJoin =
+          "round";
+
+
+        if (lastPoint) {
+
+          ctx.beginPath();
+
+          ctx.moveTo(
+            lastPoint.x,
+            lastPoint.y
+          );
+
+          ctx.lineTo(
+            point.x,
+            point.y
+          );
+
+          ctx.stroke();
+
+        } else {
+
+          ctx.beginPath();
+
+          ctx.arc(
+            point.x,
+            point.y,
+            15,
+            0,
+            Math.PI * 2
+          );
+
+          ctx.fill();
+        }
+
+
+        lastPoint =
+          point;
+      }
+
+
+      /* =========================================
+         POINTER DOWN
+      ========================================= */
+
+      function handlePointerDown(event) {
+
+        isDrawing =
+          true;
+
+        lastPoint =
+          null;
+
+
+        if (
+          canvas.setPointerCapture
+        ) {
+
+          canvas.setPointerCapture(
+            event.pointerId
+          );
+        }
+
+
+        scratch(
+          getPoint(event)
+        );
+
+
+        event.preventDefault();
+      }
+
+
+      /* =========================================
+         POINTER MOVE
+      ========================================= */
+
+      function handlePointerMove(event) {
+
+        if (!isDrawing) {
+          return;
+        }
+
+
+        scratch(
+          getPoint(event)
+        );
+
+
+        event.preventDefault();
+      }
+
+
+      /* =========================================
+         POINTER UP
+      ========================================= */
+
+      function handlePointerUp() {
+
+        if (!isDrawing) {
+          return;
+        }
+
+
+        isDrawing =
+          false;
+
+        lastPoint =
+          null;
+
+
+        scratchHint.textContent =
+          "♡ Entdeckt! Wir freuen uns auf euch ♡";
+      }
+
+
+      /* =========================================
+         UMSCHLAG ÖFFNEN
+      ========================================= */
+
+      function openEnvelope() {
+
+        /*
+         * Zweiter Schritt wird aktiviert.
+         */
+
+        envelope.classList.add(
+          "opened"
+        );
+
+
+        openHint.style.opacity =
+          "0";
+
+
+        /*
+         * Erst nachdem die
+         * Öffnungsanimation fertig ist,
+         * wird die Rubbelfläche initialisiert.
+         */
+
+        window.setTimeout(
+          setupScratchSurface,
+          1000
+        );
+      }
+
+
+      /* =========================================
+         UMSCHLAG ZURÜCKSETZEN
+      ========================================= */
+
+      function closeEnvelope() {
+
+        envelope.classList.remove(
+          "opened"
+        );
+
+
+        openHint.style.opacity =
+          "1";
+
+        isDrawing =
+          false;
+
+        lastPoint =
+          null;
+      }
+
+
+      /* =========================================
+         EVENT LISTENER
+      ========================================= */
+
+      waxSeal.addEventListener(
+        "click",
+        openEnvelope
+      );
+
+
+      canvas.addEventListener(
+        "pointerdown",
+        handlePointerDown
+      );
+
+
+      canvas.addEventListener(
+        "pointermove",
+        handlePointerMove
+      );
+
+
+      canvas.addEventListener(
+        "pointerup",
+        handlePointerUp
+      );
+
+
+      canvas.addEventListener(
+        "pointercancel",
+        handlePointerUp
+      );
+
+
+      resetButton.addEventListener(
+        "click",
+        setupScratchSurface
+      );
+
+
+      againButton.addEventListener(
+        "click",
+        closeEnvelope
+      );
+
+
+      /* =========================================
+         BEI ROTATION / GRÖSSENÄNDERUNG
+      ========================================= */
+
+      const resizeObserver =
+        new ResizeObserver(() => {
+
+          if (
+            envelope.classList.contains(
+              "opened"
+            )
+          ) {
+
+            setupScratchSurface();
+          }
+
+        });
+
+
+      resizeObserver.observe(
+        scratchArea
+      );
+
+
+      /* =========================================
+         ERSTER ZUSTAND
+      ========================================= */
+
+      /*
+       * Der Umschlag ist beim Laden
+       * geschlossen.
+       *
+       * Das Datum ist dadurch
+       * noch nicht sichtbar.
+       */
+
+    })();
+  </script>
+
+</body>
+</html>
